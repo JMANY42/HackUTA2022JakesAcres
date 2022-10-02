@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<head>
+    <title>JakeBot</title>
+</head>
+
+<body class="body">
+    
+    <style>
+        .chat-bar-collapsible {
+
+    position: fixed;
+    bottom: 0;
+    right: 50px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.body {
+    background-color: #e4e3df;
+}
+
+
+
+
+.full-chat-block {
+    width: 350px;
+    background: white;
+    text-align: center;
+    overflow: auto;
+    scrollbar-width: none;
+    height: max-content;
+    transition: max-height 0.2s ease-out;
+}
+
+.outer-container {
+    min-height: 500px;
+    bottom: 0%;
+    position: relative;
+}
+
+.chat-container {
+    max-height: 500px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    scroll-behavior: smooth;
+    hyphens: auto;
+}
+
+.chat-container::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-bar-input-block {
+    display: flex;
+    float: left;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    background-color: rgb(235, 235, 235);
+    border-radius: 10px 10px 0px 0px;
+    padding: 10px 0px 10px 10px;
+}
+
+.chat-bar-icons {
+    display: flex;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    width: 25%;
+    float: right;
+    font-size: 20px;
+}
+
+#chat-icon:hover {
+    opacity: .7;
+}
+
+/* Chat bubbles */
+
+#userInput {
+    width: 75%;
+}
+
+.input-box {
+    float: left;
+    border: none;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: #000;
+    background-color: white;
+    outline: none
+}
+
+.userText {
+    color: black;
+    font-family: Helvetica;
+    font-size: 16px;
+    font-weight: normal;
+    text-align: right;
+    clear: both;
+}
+
+.userText span {
+    line-height: 1.5em;
+    display: inline-block;
+    background: #4a91f1;
+    padding: 10px;
+    border-radius: 8px;
+    border-bottom-right-radius: 2px;
+    max-width: 80%;
+    margin-right: 10px;
+    animation: floatup .5s forwards
+}
+
+.botText {
+    color: white;
+    font-family: Helvetica;
+    font-weight: normal;
+    font-size: 16px;
+    text-align: left;
+}
+
+.botText span {
+    line-height: 1.5em;
+    display: inline-block;
+    background: #080e26;
+    padding: 10px;
+    border-radius: 8px;
+    border-bottom-left-radius: 2px;
+    max-width: 80%;
+    margin-left: 10px;
+    animation: floatup .5s forwards
+}
+
+
+    </style>
+    <div>
+        <p className='element' id='replace' class='userText'>
+    </div>
+    <div class="chat-container">
+        <!-- Messages -->
+        <div id="chatbox">
+            <h5 id="chat-timestamp"></h5>
+            <p id="botStarterMessage" class="botText"><span>Welcome!</span></p>
+        </div>
+
+        <!-- User input box -->
+        <div class="chat-bar-input-block">
+            <div id="userInput">
+                <input id="textInput" class="input-box" type="text" name="msg"
+                    placeholder="Tap 'Enter' to send a message">
+                <p></p>
+            </div>
+
+            <div class="chat-bar-icons">
+                <i id="chat-icon" style="color: crimson;" class="fa fa-fw fa-heart"
+                    onclick="heartButton()"></i>
+                <i id="chat-icon" style="color: #333;" class="fa fa-fw fa-send"
+                    onclick="sendButton()"></i>
+            </div>
+        </div>
+
+        <div id="chat-bar-bottom">
+            <p></p>
+        </div>
+
+    </div>
+    <script>
+        
+             // Add event listener on keypress
+     document.addEventListener('keypress', (event) => {
+        var name = event.key;
+        //alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+        if(name==="Enter")
+        {
+            main(document.getElementById("textInput").value);
+            document.getElementById("textInput").value = "";
+        }
+        }, false);
+
+        function main(inx)
+        {
+            let output = "";
+            let inputUnformat = inx;
+            let input = approvedCharacters(inx.toLowerCase());
+            //console.log(input);
+
+            output = "I don't understand what you're saying.";
+            if(input.includes("name"))
+            {
+                output = "My name is Jakebot, but you can call me Jake.";
+            }
+            else if(input.includes("how")&&input.includes("you"))
+            {
+                output = "I'm good.";
+            }
+            else if(input.includes("how")&&input.includes("day"))
+            {
+                output = "My day was good.";
+            }
+            else if(input.includes("insurance")||input.includes("identity")||input.includes("statefarm")||input.includes("coverage")||input.includes("protect"))
+            {
+                output = "No matter how safe you are, identity theft can happen to anybody. State Farm identity restoration insurance can help you recover from identity theft.";
+            }
+            else if(input.includes("phish")||input.includes("spoof")||input.includes("fish"))
+            {
+                output = "Phishing is the fraudulent practice of sending emails in order to induce individuals to reveal personal information. Please check out the page about phishing and spoofing.";
+                //direct to page
+            }
+            else if(input.includes("password"))
+            {
+                output = "Passwords are the key to accounts. A weak password leaves your account vulnerable to anyone with malicious intents. Please check out our page about password strength and security to learn more.";
+                
+                //direct to page
+            }
+            else if(input.includes("scam"))
+            {
+                output = "Scams are a form of cyber attack that are often meant to steal, currupt, or annoy the target. This term is broad, so if you want more information please check out our page about avoiding scams.";
+            }
+            else if(input.includes("safe"))
+            {
+                output = "Please check out our page about internet safety.";
+            }
+            else if(input.includes("hello")||input.includes("hi")||input.includes("hey")||input.includes("sup"))
+            {
+                output = "Hello There! I am Jakebot, but you can call me Jake. I am here to assist you in finding relevent information suited to your needs. Please ask a question so that I may help you.";
+            }
+            else if(input.includes("help"))
+            {
+                output = "Hello There! I am Jakebot, but you can call me Jake. I am here to assist you in finding relevent information suited to your needs. Please ask a question so that I may help you.";
+            }
+           
+            var tag = document.createElement("p");
+            tag.classList.add('userText')
+            var spany = document.createElement("SPAN");
+            var text = document.createTextNode(inputUnformat);
+            spany.appendChild(text);
+            tag.appendChild(spany);
+            var element = document.getElementById("chatbox");
+            element.appendChild(tag);
+            document.getElementById("chat-bar-bottom").scrollIntoView(true);
+
+            var tag2 = document.createElement("p");
+            tag2.classList.add('botText')
+            var spany2 = document.createElement("SPAN");
+            var text2 = document.createTextNode(output);
+            spany2.appendChild(text2);
+            tag2.appendChild(spany2);
+            var element2 = document.getElementById("chatbox");
+            element2.appendChild(tag2);
+            document.getElementById("chat-bar-bottom").scrollIntoView(true);
+
+        }
+
+        function approvedCharacters(input){
+            let alphabet = "abcdefghijklmnopqrstuvwxyz";
+            input = String(input);
+            let ret = ""
+            for(let i = 0; i < input.length; i++){
+                if(alphabet.includes(input[i])){
+                    ret+=input[i];
+                }
+            }
+            return ret;
+        }
+
+
+
+    </script>
+</body>
