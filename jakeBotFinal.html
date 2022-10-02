@@ -169,11 +169,12 @@
 
     </div>
     <script>
-        
+        window.parent.postMessage(3);
              // Add event listener on keypress
      document.addEventListener('keypress', (event) => {
         var name = event.key;
         //alert(`Key pressed ${name} \r\n Key code value: ${code}`);
+
         if(name==="Enter")
         {
             main(document.getElementById("textInput").value);
@@ -186,53 +187,63 @@
             let output = "";
             let inputUnformat = inx;
             let input = approvedCharacters(inx.toLowerCase());
+            let eventCode = -1;
             //console.log(input);
+                        
 
             output = "I don't understand what you're saying.";
             if(input.includes("name"))
             {
                 output = "My name is Jakebot, but you can call me Jake.";
+                eventCode = 0;
             }
             else if(input.includes("how")&&input.includes("you"))
             {
                 output = "I'm good.";
+                eventCode = 1;
             }
             else if(input.includes("how")&&input.includes("day"))
             {
                 output = "My day was good.";
+                eventCode = 2;
             }
             else if(input.includes("insurance")||input.includes("identity")||input.includes("statefarm")||input.includes("coverage")||input.includes("protect"))
             {
-                output = "No matter how safe you are, identity theft can happen to anybody. State Farm identity restoration insurance can help you recover from identity theft.";
+                output = "No matter how safe you are, identity theft can happen to anybody. State Farm identity restoration insurance can help you recover from identity theft. Click the button above to learn more.";
+                eventCode = 3;
             }
             else if(input.includes("phish")||input.includes("spoof")||input.includes("fish"))
             {
-                output = "Phishing is the fraudulent practice of sending emails in order to induce individuals to reveal personal information. Please check out the page about phishing and spoofing.";
+                output = "Phishing is the fraudulent practice of sending emails in order to induce individuals to reveal personal information. Please check out the page about phishing and spoofing. Click the button above to learn more.";
+                eventCode =4;
                 //direct to page
             }
             else if(input.includes("password"))
             {
-                output = "Passwords are the key to accounts. A weak password leaves your account vulnerable to anyone with malicious intents. Please check out our page about password strength and security to learn more.";
+                output = "Passwords are the key to accounts. A weak password leaves your account vulnerable to anyone with malicious intents. Please check out our page about password strength and security to learn more. Click the button above to learn more.";
+                eventCode = 5;
                 
                 //direct to page
             }
             else if(input.includes("scam"))
             {
-                output = "Scams are a form of cyber attack that are often meant to steal, currupt, or annoy the target. This term is broad, so if you want more information please check out our page about avoiding scams.";
+                output = "Scams are a form of cyber attack that are often meant to steal, currupt, or annoy the target. This term is broad, so if you want more information please check out our page about avoiding scams. Click the button above to learn more.";
+                eventCode = 6;
             }
             else if(input.includes("safe"))
             {
-                output = "Please check out our page about internet safety.";
+                output = "Being safe on the internet is vital to protecting yourself and your information. Please check out our page about internet safety. Click the button above to learn more";
+                eventCode = 7;
             }
-            else if(input.includes("hello")||input.includes("hi")||input.includes("hey")||input.includes("sup"))
+            else if(input.includes("hello")||input.includes("hi")||input.includes("hey")||input.includes("sup")||input.includes("help"))
             {
-                output = "Hello There! I am Jakebot, but you can call me Jake. I am here to assist you in finding relevent information suited to your needs. Please ask a question so that I may help you.";
+                output = "Hello There! I am Jakebot, but you can call me Jake. I am here to assist you in finding relevent information suited to your needs. Please ask a question so that I may help you. ";
+                eventCode = 8;
             }
-            else if(input.includes("help"))
-            {
-                output = "Hello There! I am Jakebot, but you can call me Jake. I am here to assist you in finding relevent information suited to your needs. Please ask a question so that I may help you.";
-            }
-           
+            window.parent.postMessage(eventCode, "*");
+            
+            
+
             var tag = document.createElement("p");
             tag.classList.add('userText')
             var spany = document.createElement("SPAN");
